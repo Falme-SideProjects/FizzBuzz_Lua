@@ -1,12 +1,17 @@
 local FizzBuzz = {
     DEFAULT_RETURN = 0
 }
+FizzBuzz.__index = FizzBuzz
 
 function FizzBuzz:GetFizzBuzzFromIndex(index)
-    if type(index) ~= "number" or 
-        index <= 0 then 
-            return self.DEFAULT_RETURN 
-        end
+     
+    if not FizzBuzz:IsValidInput(index) then
+        return self.DEFAULT_RETURN 
+    end
+
+    if type(index) == "string" then
+        index=tonumber(index)
+    end
 
     local stringResult = ""
 
@@ -23,14 +28,33 @@ function FizzBuzz:GetFizzBuzzFromIndex(index)
     return index
 end
 
-function FizzBuzz:Main()
-    
-    for i=0,30,2 do
-        print(FizzBuzz:GetFizzBuzzFromIndex(i))
-    end
 
+function FizzBuzz:IsValidInput(inputToCheck)
+    if type(inputToCheck) ~= "number" then
+        if type(inputToCheck) ~= "string" then
+            return false
+        else
+            local result = tonumber(inputToCheck)
+            if result == nil or result <= 0  then return false end
+            return true
+        end
+        return false
+    end
+    return inputToCheck > 0
 end
 
-FizzBuzz:Main()
+function FizzBuzz:Main(times)
+    if type(times) == "string" then
+        times = tonumber(times)
+    end
+
+    if type(times) == "number" then
+        for i=1,times,1 do
+            print(FizzBuzz:GetFizzBuzzFromIndex(i))
+        end
+    end
+end
+
+FizzBuzz:Main(arg[1])
 
 return FizzBuzz

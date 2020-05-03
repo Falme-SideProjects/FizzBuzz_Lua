@@ -76,7 +76,7 @@ describe("FizzBuzz: Different Types", function()
     end)
 
     it("If type string 17, return 0", function()
-        assert.are.equal(0, fizzBuzz:GetFizzBuzzFromIndex("17"))
+        assert.are.equal(17, fizzBuzz:GetFizzBuzzFromIndex("17"))
     end)
 
     it("If type string test, return 0", function()
@@ -89,5 +89,90 @@ describe("FizzBuzz: Different Types", function()
     
     it("If type nil, return 0", function()
         assert.are.equal(0, fizzBuzz:GetFizzBuzzFromIndex(nil))
+    end)
+end)
+
+describe("FizzBuzz: Check if Is valid Input", function()
+    it("Check if 0 is a valid value", function()
+        assert.are.equal(false, fizzBuzz:IsValidInput(0))
+    end)
+    
+    it("Check if '0' is a valid value", function()
+        assert.are.equal(false, fizzBuzz:IsValidInput("0"))
+    end)
+    
+    it("Check if '1' is a valid value", function()
+        assert.are.equal(true, fizzBuzz:IsValidInput("1"))
+    end)
+    
+    it("Check if '9' is a valid value", function()
+        assert.are.equal(true, fizzBuzz:IsValidInput("9"))
+    end)
+    
+    it("Check if 'test' is a valid value", function()
+        assert.are.equal(false, fizzBuzz:IsValidInput('test'))
+    end)
+    
+    it("Check if table is a valid value", function()
+        assert.are.equal(false, fizzBuzz:IsValidInput({}))
+    end)
+    
+    it("Check if 123 is a valid value", function()
+        assert.are.equal(true, fizzBuzz:IsValidInput(123))
+    end)
+    
+    it("Check if -1 is a valid value", function()
+        assert.are.equal(false, fizzBuzz:IsValidInput(-1))
+    end)
+    
+    it("Check if -21 is a valid value", function()
+        assert.are.equal(false, fizzBuzz:IsValidInput(-21))
+    end)
+end)
+
+describe("FizzBuzz: Check if Main is Calling correctly", function()
+    it("Check if Main is calling Main", function()
+        local localFizzBuzz = require("FizzBuzz")
+        spy.on(localFizzBuzz, "Main")
+        
+        localFizzBuzz:Main(1)
+  
+        assert.spy(localFizzBuzz.Main).was.called()
+    end)
+    
+    it("Check if Main is calling GetFizzBuzz", function()
+        local localFizzBuzz = require("FizzBuzz")
+        spy.on(localFizzBuzz, "GetFizzBuzzFromIndex")
+        
+        localFizzBuzz:Main(3)
+  
+        assert.spy(localFizzBuzz.GetFizzBuzzFromIndex).was.called(3)
+    end)
+    
+    it("Check if Main is calling GetFizzBuzz 30 times", function()
+        local localFizzBuzz = require("FizzBuzz")
+        spy.on(localFizzBuzz, "GetFizzBuzzFromIndex")
+        
+        localFizzBuzz:Main(30)
+  
+        assert.spy(localFizzBuzz.GetFizzBuzzFromIndex).was.called(30)
+    end)
+    
+    it("Check if Main('30') is calling GetFizzBuzz 30 times", function()
+        local localFizzBuzz = require("FizzBuzz")
+        spy.on(localFizzBuzz, "GetFizzBuzzFromIndex")
+        
+        localFizzBuzz:Main("30")
+  
+        assert.spy(localFizzBuzz.GetFizzBuzzFromIndex).was.called(30)
+    end)
+    
+    it("Check if Main is calling IsValidInput 30 times", function()
+        local localFizzBuzz = require("FizzBuzz")
+        spy.on(localFizzBuzz, "IsValidInput")
+        
+        localFizzBuzz:Main(30)
+  
+        assert.spy(localFizzBuzz.IsValidInput).was.called(30)
     end)
 end)
